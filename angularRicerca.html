@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <base href="/">
+    <title>AngularJS Outlet</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+    <style>
+        table,
+        td,
+        th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            background-color: silver;
+            padding: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="/">Home</a><br>
+    <a href="/fileJSON">Mostra i film di Brad Pitt</a><br>
+    <a href="/fileJSONdue">Mostra I film di Leonardo di Caprio</a>
+
+    <div ng-view></div>
+    <input type="text" ng-model="searchText" placeholder="Search by ID">
+    <button ng-click="search()">Search</button>
+
+    <ul>
+        <li ng-repeat="string in searchResult">
+            <table>
+                <caption>Contenuto del file JSON</caption>
+                <thead>
+                    <tr>
+                        <th scope='col'>Titolo</th>
+                        <th scope='col'>Durata</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in string | filter:searchText">
+                        <td>{{item.Titolo}}</td>
+                        <td>{{item.Durata}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+
+    <script>
+        var app = angular.module('myApp', ['ngRoute']);
+
+        app.config(function ($routeProvider, $locationProvider) {
+            $routeProvider
+                .when('/fileJSONdue', {
+                    templateUrl: 'fileJSONdue.html',
+                    controller: 'ctrl'
+                })
+                .when('/fileJSON', {
+                    templateUrl: 'fileJSON.html',
+                    controller: 'ctrldue'
+                });
+            $locationProvider.html5Mode(true);
+        });
+
+        app.controller('ctrl', function ($scope, $http, $sce) {
+            $http.get('data.json')
+                .then(function (response) {
+                    $scope.data = response.data;
+                    $scope.searchResult = angular.copy($scope.data);
+                })
+                .catch(function (error) {
+                    $scope.msg = "Errore nel reperire il contenuto del file";
+                });
+
+            $scope.search = function () {
+                if ($scope.searchText !== "") {
+                    $scope.searchResult = $scope.data.filter(function (item) {
+                        return item.id && item.id.toString().indexOf($scope.searchText) !== -1;
+                    });
+                } else {
+                    $scope.searchResult = angular.copy($scope.data);
+                }
+            };
+        });
+
+        app.controller('ctrldue', function ($scope, $http, $sce) {
+            $http.get('data2.json')
+                .then(function (response) {
+                    $scope.data = response.data;
+                    $scope.searchResult = angular.copy($scope.data);
+                })
+                .catch(function (error) {
+                    $scope.msg = "Errore nel reperire il contenuto del file";
+                });
+
+            $scope.search = function () {
+                if ($scope.searchText !== "") {
+                    $scope.searchResult = $scope.data.filter(function (item) {
+                        return item.id && item.id.toString().indexOf($scope.searchText) !== -1;
+                    });
+                } else {
+                    $scope.searchResult = angular.copy($scope.data);
+                }
+            };
+        });
+    </script>
+
+</body>
+
+</html>
