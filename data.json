@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "Titolo": "Titanic",
+        "Durata": "112 min"
+    },
+    {
+        "id": 2,
+        "Titolo": "Shutter Island",
+        "Durata": "127 min"
+    },
+    {
+        "id": 3,
+        "Titolo": "Killers of the flower moon",
+        "Durata": "107 min"
+    },
+    {
+        "id": 4,
+        "Titolo": "Wolf of wall street",
+        "Durata": "180 min"
+    },
+    {
+        "id": 5,
+        "Titolo": "Inception",
+        "Durata": "142 min"
+    },
+    {
+        "id": 6,
+        "Titolo": "Il grande gatsby",
+        "Durata": "109 min"
+    },
+    {
+        "id": 7,
+        "Titolo": "Revenant",
+        "Durata": "101 min"
+    }
+]
